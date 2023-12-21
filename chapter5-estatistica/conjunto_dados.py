@@ -66,3 +66,44 @@ def mode(x):
 mode(num_friends)                       # 10, 13, 15, 19
 
 #dispersao
+
+def data_range(x):
+    return max(x) - min(x)
+
+data_range(num_friends)                 # 90
+
+#variancia
+
+from scratch.linear_algebra import sum_of_squares
+
+def de_mean(x):
+    """desloca x subtraindo sua media (entao o resultado tem media 0)"""
+    x_bar = mean(x)
+    return [x_i - x_bar for x_i in x]
+
+def variance(x):
+    """supoe que x tem pelo menos dois elementos"""
+    n = len(x)
+    deviations = de_mean(x)
+    return sum_of_squares(deviations) / (n - 1)
+
+variance(num_friends)                   # 81.54
+
+#desvio padrao
+
+import math
+
+def standard_deviation(x):
+    return math.sqrt(variance(x))
+
+standard_deviation(num_friends)         # 9.03
+
+#interquartile range
+
+def interquartile_range(x):
+    return quantile(x, 0.75) - quantile(x, 0.25)
+
+interquartile_range(num_friends)        # 5
+
+#correlacao
+
