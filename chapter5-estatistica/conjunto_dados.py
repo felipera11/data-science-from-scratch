@@ -1,5 +1,6 @@
 from collections import Counter
 import matplotlib.pyplot as plt
+from typing import List
 
 num_friends = [100, 49, 41, 40, 25, 21, 21, 19, 19, 18,
                 18, 16, 15, 15, 15, 15, 14, 14, 13, 13,
@@ -107,3 +108,35 @@ interquartile_range(num_friends)        # 5
 
 #correlacao
 
+from scratch.linear_algebra import dot
+
+def covariance(xs: List[float], ys: List[float]) -> float:
+    assert len(xs) == len(ys), "xs e ys devem ter a mesma quantidade de elementos"
+
+    return dot(de_mean(xs), de_mean(ys)) / (len(xs) - 1)
+
+#correlacao
+def correlation(xs: List[float], ys: List[float]) -> float:
+    stdev_x = standard_deviation(xs)
+    stdev_y = standard_deviation(ys)
+
+    if stdev_x > 0 and stdev_y > 0:
+        return covariance(xs, ys) / stdev_x / stdev_y
+    else:
+        return 0
+    
+outlier = num_friends.index(100)        # indice do outlier
+
+num_friends_good = [x
+                    for i, x in enumerate(num_friends)
+                    if i != outlier]
+
+daily_minutes_good = [x
+                        for i, x in enumerate(daily_minutes)
+                        if i != outlier]
+
+daily_hours_good = [dm / 60 for dm in daily_minutes_good]
+
+correlation(num_friends_good, daily_hours_good)    # 0.57
+
+#https://onlinestatbook.com/
